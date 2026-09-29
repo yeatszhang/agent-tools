@@ -1,0 +1,23 @@
+version: 1
+
+skills:
+  - id: writing-editor
+    path: skills/writing-editor
+    status: active
+    description: 中文去 AI 味，并通过人工修改 diff 逐步学习个人 Voice。
+
+agents:
+  - id: research-agent
+    path: agents/research-agent.md
+    status: draft
+    description: 面向技术/产品调研的证据优先 Agent 模板。
+  - id: review-agent
+    path: agents/review-agent.md
+    status: draft
+    description: 面向代码、方案、文档的审查 Agent 模板。
+
+mcp:
+  catalog: mcp/catalog.yaml
+
+tools:
+  catalog: tools/catalog.yaml

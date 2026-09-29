@@ -1,0 +1,26 @@
+version: 1
+
+tools:
+  - id: anthropic-skill-creator
+    category: skill-authoring
+    source: https://github.com/anthropics/skills/tree/main/skills/skill-creator
+    purpose: 创建、评审和迭代 Agent Skill
+    status: reference
+
+  - id: agent-skills-spec
+    category: skill-authoring
+    source: https://agentskills.io/skill-creation/quickstart
+    purpose: Agent Skills 创建规范 / Codex 友好的 Skill 结构参考
+    status: reference
+
+  - id: humanizer-chinese
+    category: writing
+    source: https://github.com/jiji262/humanizer-chinese
+    purpose: 中文去 AI 味规则上游参考
+    status: upstream-reference
+
+  - id: writing-style-skill
+    category: writing
+    source: https://github.com/jzOcb/writing-style-skill
+    purpose: 从 original/final diff 学习个人写作风格的机制参考
+    status: upstream-reference

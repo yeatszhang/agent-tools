@@ -1,0 +1,30 @@
+version: 1
+
+servers:
+  - id: github
+    status: active
+    category: development
+    purpose: Repository / PR / issue workflows
+    secrets:
+      - GITHUB_TOKEN
+    config_committed: false
+
+  - id: filesystem
+    status: candidate
+    category: local
+    purpose: Controlled local file access
+    secrets: []
+    config_committed: false
+
+  - id: browser
+    status: candidate
+    category: research
+    purpose: Browser automation / page exploration
+    secrets: []
+    config_committed: false
+
+# Add real server implementations only after validating:
+# - upstream activity
+# - permission scope
+# - secret handling
+# - usefulness in repeated workflows

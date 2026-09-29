@@ -1,0 +1,15 @@
+version: 1
+
+thresholds:
+  emerging_min_observations: 3
+  stable_min_observations: 5
+
+rules: []
+
+# Example:
+# - id: prefer-direct-opening
+#   status: candidate
+#   behavior: 删除“通过……实现……”式铺垫，优先直接陈述结论。
+#   contexts: [technical, management]
+#   observations: 1
+#   evidence: []
