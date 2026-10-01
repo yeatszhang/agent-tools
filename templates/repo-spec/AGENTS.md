@@ -52,12 +52,15 @@ This file defines always-on repository policy for coding agents. Keep it short e
 
 ## Skill Routing
 
-Keep procedural workflows out of this file. Link to a Skill when a task needs a conditional procedure.
+Keep procedural workflows out of this file. Add routes only for Skills that actually exist in the target repository.
+
+Example:
 
 | When | Skill |
 | --- | --- |
-| Create, audit, or materially revise repository agent policy | [repo-spec-maintainer](../../skills/repo-spec-maintainer/SKILL.md) |
-| Add a new reusable Skill | Follow the repository's Skill authoring guidance and [Skill template](../skill/SKILL.md) |
+| Perform a task-specific workflow | [skill-name](skills/skill-name/SKILL.md) |
+
+The root file routes; the Skill contains the detailed procedure. Remove example rows after project setup.
 
 ## Project-Specific Additions
 
