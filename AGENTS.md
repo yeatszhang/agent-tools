@@ -5,7 +5,9 @@ This repository is the source of truth for personal agent tooling.
 ## Principles
 
 - Prefer portable, model-agnostic Skills.
-- Keep SKILL.md concise; move long rules/examples into references/.
+- Keep `SKILL.md` concise; move long rules/examples into `references/`.
+- Keep always-on repository policy in `AGENTS.md`; keep conditional procedures in Skills.
+- Link between `AGENTS.md` and Skills instead of duplicating shared rules.
 - Never commit secrets, tokens, cookies, private keys, or raw credentials.
 - For learned behavior, do not promote a one-off edit directly into stable rules.
 - Preserve source facts and intent when rewriting user content.
@@ -17,5 +19,20 @@ This repository is the source of truth for personal agent tooling.
 - `agents/`: role definitions and multi-step workflows.
 - `mcp/`: MCP catalog and sanitized config examples.
 - `tools/`: useful external tools / CLIs.
-- `templates/`: starter templates.
+- `templates/`: starter templates, including repository agent policy.
 - `scripts/`: repository maintenance and validation.
+
+## Skill Routing
+
+Read a Skill only when its trigger applies. The root file routes; the Skill contains the detailed procedure.
+
+| When | Skill |
+| --- | --- |
+| Create, audit, or update repository-level agent instructions | [repo-spec-maintainer](skills/repo-spec-maintainer/SKILL.md) |
+| Rewrite or humanize Chinese text, or maintain personal voice rules | [writing-editor](skills/writing-editor/SKILL.md) |
+
+When authoring a new Skill, start from [templates/skill/SKILL.md](templates/skill/SKILL.md). Skills that depend on repository-wide rules should link back to this file rather than restating those rules.
+
+## Repository Spec Templates
+
+Use [templates/repo-spec/AGENTS.md](templates/repo-spec/AGENTS.md) as the default starting point for a new AI-assisted coding repository. Its engineering constitution is a template, not automatically a rule for this tooling repository.
