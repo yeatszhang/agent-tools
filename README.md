@@ -6,26 +6,67 @@
 
 1. 一份源仓库，多 Agent 复用。
 2. Skill 优先采用开放的 Agent Skills 结构，避免绑定单一运行时。
-3. MCP 只记录可公开的配置结构与环境变量名，不提交密钥。
-4. 所有“会学习”的 Skill 都把观察、候选规则、稳定规则分层，避免一次修改污染长期风格。
-5. 重要 Skill 应有最小 eval，用修改前后样例验证，而不是只凭感觉迭代。
+3. `AGENTS.md` 承载 always-on policy，Skill 承载按需 workflow；两者用链接协作，不复制规则。
+4. MCP 只记录可公开的配置结构与环境变量名，不提交密钥。
+5. 所有“会学习”的 Skill 都把观察、候选规则、稳定规则分层，避免一次修改污染长期风格。
+6. 重要 Skill 应有最小 eval，用修改前后样例验证，而不是只凭感觉迭代。
 
 ## 目录
 
 ```text
 agent-tools/
-├── skills/                 # 可复用 Skills
-│   └── writing-editor/     # 中文去 AI 味 + Personal Voice
-├── agents/                 # Agent 角色/工作流定义
-├── mcp/                    # MCP catalog 与接入说明
-├── tools/                  # 常用 CLI / 工具索引
-├── templates/              # Skill / Agent 模板
-├── scripts/                # 仓库级脚本
-├── docs/                   # 约定与设计文档
-└── registry.yaml           # 总索引
+├── skills/
+│   ├── writing-editor/          # 中文去 AI 味 + Personal Voice
+│   └── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
+├── agents/                      # Agent 角色/工作流定义
+├── mcp/                         # MCP catalog 与接入说明
+├── tools/                       # 常用 CLI / 工具索引
+├── templates/
+│   ├── skill/                   # Skill 模板
+│   └── repo-spec/               # 新项目 AGENTS.md / 工程约束模板
+├── scripts/                     # 仓库级脚本
+├── docs/                        # 约定与设计文档
+└── registry.yaml                # 总索引
 ```
 
-## 首个 Skill：writing-editor
+## AGENTS.md 与 Skill 的边界
+
+推荐使用 progressive disclosure：
+
+```text
+AGENTS.md
+  ├─ always-on invariants
+  ├─ repository facts
+  └─ route: "when X, read skills/x/SKILL.md"
+                         ↑
+SKILL.md                 │
+  ├─ conditional workflow
+  ├─ commands / decisions│
+  └─ shared policy: -----┘ link back to AGENTS.md
+```
+
+- 一个事实只有一个 authoritative home。
+- Root `AGENTS.md` 尽量短；只保留几乎每个任务都需要知道的规则。
+- 包/目录特有规则优先放最近的 nested `AGENTS.md`。
+- 长流程、决策树、验证步骤进入 Skill。
+- 长背景、示例和 rationale 进入 `references/` 或 docs。
+
+## Repo Spec Template
+
+[templates/repo-spec/AGENTS.md](templates/repo-spec/AGENTS.md) 是启动 AI-assisted coding 项目时的默认工程规范模板，吸收了 Paseo 等 AI-native codebase 中高质量约束，重点防止：
+
+- speculative abstraction / 过度设计
+- defensive coding / silent fallback
+- unrelated cleanup / diff 扩散
+- refactor layering / 新旧路径长期并存
+- type-system bypass
+- mock-driven false green
+- 静态阅读替代 runtime evidence
+- 全仓库无差别验证
+
+[repo-spec-maintainer](skills/repo-spec-maintainer/SKILL.md) 负责把模板裁剪成具体项目的 `AGENTS.md`，而不是把模板本身当作 Skill。
+
+## writing-editor
 
 目标不是“绕过 AI 检测”，而是：
 
@@ -45,18 +86,6 @@ Candidate Voice Rules
 Review / Eval
   ↓
 Stable Voice
-```
-
-### 两层职责
-
-- **Humanizer**：删除中文 AI 常见模式：空话、宏大开场、模板化总结、过度排比、讲义腔、互联网黑话、欧化句式等。
-- **Personal Voice**：学习个人稳定偏好，例如结论优先、信息密度高、具体、有判断、少官话。
-
-### 规则生命周期
-
-```text
-candidate → emerging → stable
-                 ↘ rejected
 ```
 
 一次编辑只能产生 candidate；重复观察后再进入 stable。
