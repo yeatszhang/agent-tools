@@ -23,7 +23,8 @@ agent-tools/
 ├── tools/                       # 常用 CLI / 工具索引
 ├── templates/
 │   ├── skill/                   # Skill 模板
-│   └── repo-spec/               # 新项目 AGENTS.md / 工程约束模板
+│   ├── repo-spec/               # OpenSpec + 普通 AI Coding 项目常驻规范
+│   └── agent-harness/           # Agent Runtime / 多 Agent 系统设计模板
 ├── scripts/                     # 仓库级脚本
 ├── docs/                        # 约定与设计文档
 └── registry.yaml                # 总索引
@@ -53,7 +54,7 @@ SKILL.md                 │
 
 ## Repo Spec Template
 
-[templates/repo-spec/AGENTS.md](templates/repo-spec/AGENTS.md) 是启动 AI-assisted coding 项目时的默认工程规范模板，吸收了 Paseo 等 AI-native codebase 中高质量约束，重点防止：
+[templates/repo-spec/README.md](templates/repo-spec/README.md) 是启动 AI-assisted coding 项目时的默认模板：OpenSpec 管理行为规格与变更流程，`AGENTS.md` 保留仓库常驻工程约束，重点防止：
 
 - speculative abstraction / 过度设计
 - defensive coding / silent fallback
@@ -65,6 +66,12 @@ SKILL.md                 │
 - 全仓库无差别验证
 
 [repo-spec-maintainer](skills/repo-spec-maintainer/SKILL.md) 负责把模板裁剪成具体项目的 `AGENTS.md`，而不是把模板本身当作 Skill。
+
+模板分工：
+
+- [repo-spec](templates/repo-spec/README.md)：默认接入 OpenSpec，保留普通项目的常驻工程约束与架构入口；行为规格和变更记录由 OpenSpec 管理。
+- [skill](templates/skill/README.md)：按需加载的可复用流程，包含触发与结果评测样例。
+- [agent-harness](templates/agent-harness/README.md)：构建 Agent Runtime 时的执行、工具、隔离、上下文与可观测性契约。
 
 ## writing-editor
 

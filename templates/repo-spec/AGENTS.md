@@ -2,6 +2,12 @@
 
 This file defines always-on repository policy for coding agents. Keep it short enough to load on every task. Put task-specific procedures in Skills and link them from the routing section instead of copying them here.
 
+## Repository Map
+
+- Start with [ARCHITECTURE.md](ARCHITECTURE.md) for system boundaries and the main code paths.
+- Read `openspec/specs/` for current product behavior and `openspec/changes/` for active or archived change records. Initialize OpenSpec before using this template.
+- Add links here for project-specific product, security, reliability, and operational docs. Read them when the task touches that area; do not load every document for every task.
+
 ## Engineering Constitution
 
 1. **Validate at boundaries; trust types internally.**
@@ -34,6 +40,18 @@ This file defines always-on repository policy for coding agents. Keep it short e
 10. **Run the smallest verification that proves the change.**
     Start with affected tests, typecheck, and lint. Leave broad integration suites to CI unless the task requires them.
 
+## Before Behavior-Changing Work
+
+Use the project's OpenSpec workflow for features and non-trivial behavior changes. For changes to public APIs, persisted state, protocols, runtime lifecycle, or compatibility boundaries, capture required behavior, compatibility requirements, intentionally unsupported cases, failure behavior, and acceptance criteria in the relevant OpenSpec proposal, specs, and design. Do not maintain a second plan or scope contract for the same change. A small local correction can proceed directly when it needs no change spec.
+
+## Completion Contract
+
+- Implement the agreed scope and run focused verification.
+- Review the diff for correctness, scope creep, missing failure paths, and test quality. Seek independent review for high-impact changes when the project workflow supports it; resolve findings before final verification.
+- Run any required final checks after the last fix. Report what ran and what remains unverified. Do not claim completion while required checks or review are pending.
+- Update and archive the OpenSpec change only after its implemented behavior and verification agree with the artifacts.
+- Preserve the current checkout. Create branches or worktrees only when the task or repository workflow calls for them; isolate concurrent workers when they can change the same files, services, or ports.
+
 ## Coding Rules
 
 - Comments explain non-obvious **why**, not obvious **what**.
@@ -58,7 +76,7 @@ Example:
 
 | When | Skill |
 | --- | --- |
-| Perform a task-specific workflow | [skill-name](skills/skill-name/SKILL.md) |
+| Perform a task-specific workflow | `skills/skill-name/SKILL.md` (replace with a link to a real Skill) |
 
 The root file routes; the Skill contains the detailed procedure. Remove example rows after project setup.
 

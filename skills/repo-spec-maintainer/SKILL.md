@@ -23,7 +23,7 @@ Produce the smallest useful repository instruction surface that is always correc
    - **package-specific policy** → nearest nested `AGENTS.md`
    - **conditional procedure** → Skill
    - **long explanation/examples** → docs or Skill references
-3. Start from [the repo-spec template](../../templates/repo-spec/AGENTS.md), then delete anything that is not demonstrably relevant.
+3. Start from [the repo-spec template](../../templates/repo-spec/README.md), including its OpenSpec setup and small knowledge map, then delete anything that is not demonstrably relevant. Use [the harness template](../../templates/agent-harness/README.md) only for projects that build an agent runtime or multi-agent orchestration system.
 4. Preserve one source of truth. Link across surfaces; do not copy the same rule into multiple files.
 5. Verify every path and command named in the instructions actually exists.
 6. Review the final instruction budget: every root line should either apply to nearly every task or save costly rediscovery.
@@ -70,4 +70,6 @@ Before finishing, confirm:
 - Skill routes point to real `SKILL.md` files;
 - Skills link back to the authoritative shared policy when needed;
 - commands and paths exist;
+- OpenSpec paths and architecture links point to real project knowledge rather than template placeholders;
+- no parallel plan or decision log duplicates the OpenSpec change record;
 - duplicated guidance has been removed.

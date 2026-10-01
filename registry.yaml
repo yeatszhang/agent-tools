@@ -24,7 +24,15 @@ templates:
   - id: repo-spec
     path: templates/repo-spec
     status: active
-    description: 新 AI-assisted coding 项目的 AGENTS.md 工程约束模板。
+    description: 默认接入 OpenSpec 的 AI-assisted coding 项目工程约束与知识地图模板。
+  - id: skill
+    path: templates/skill
+    status: active
+    description: 可复用 Skill 的按需加载、结构与评测模板。
+  - id: agent-harness
+    path: templates/agent-harness
+    status: active
+    description: Agent Runtime 与多 Agent 系统的执行、工具、隔离和评测模板。
 
 mcp:
   catalog: mcp/catalog.yaml
