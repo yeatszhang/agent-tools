@@ -1,22 +1,22 @@
-# Architecture
+# 架构概览
 
-Describe the current system, not the intended future system. Keep this page short and link to current behavior in OpenSpec and relevant change designs.
+描述当前系统，而非尚未实现的目标架构。保持简短，按需链接详细设计与代码。
 
-## System Boundaries
+## 系统边界
 
-| Area | Responsibility | Entry point | Owner / source |
+| 领域 | 职责与边界 | 代码入口 | 负责人或依据 |
 | --- | --- | --- | --- |
-| Replace with a real area | State what it owns and does not own | Replace with a real path | Replace or remove |
+| 替换为真实领域 | 写清负责和不负责的内容 | 替换为真实路径 | 填写或删除 |
 
-## Main Flows
+## 主要流程
 
-- Describe the path of one important user action through the system.
-- Link to code and diagrams when they save rediscovery.
+- 描述一条重要用户操作在系统中的完整路径。
+- 只有代码链接或图能减少重复查找时才添加。
 
-## Invariants and Dependencies
+## 不变量与依赖
 
-- Record cross-module invariants and external dependencies that affect implementation.
+- 记录会影响实现的跨模块不变量和外部依赖。
 
-## Further Reading
+## 进一步阅读
 
-- Link only to docs that exist in this repository. Use `openspec/specs/` for current behavior and `openspec/changes/` for active work and the design history of completed changes.
+- 只链接仓库中真实存在的文档。当前产品行为见 `openspec/specs/`；进行中的工作和已完成变更的设计记录见 `openspec/changes/`。

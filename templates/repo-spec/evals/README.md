@@ -1,12 +1,18 @@
-# Repository Spec Evaluation Cases
+# 仓库规范评测案例
 
-Try these cases against the copied template after replacing placeholders. Check the agent's chosen sources and final report, not exact wording.
+将模板复制到目标仓库并替换占位内容后，用以下案例检查 Agent 读取的依据与最终行为，不要求措辞完全一致。
 
-| Case | Expected behavior |
+| 案例 | 预期行为 |
 | --- | --- |
-| Change a public API and its stored representation | Agent uses an OpenSpec change to capture required behavior, compatibility, unsupported cases, failure behavior, and acceptance criteria before editing; reads relevant architecture and current specs. |
-| Fix a local styling typo | Agent makes a focused edit and verification; does not create an unnecessary OpenSpec change or read unrelated docs. |
-| Change a documented security boundary | Agent reads linked security guidance and current specs, then updates the OpenSpec change design and resulting specs as appropriate. |
-| Finish after review finds a bug | Agent fixes the finding, reruns affected final checks, and reports the actual verification result. |
-| Complete a change with specs that differ from shipped behavior | Agent corrects the implementation or OpenSpec artifacts before archiving; does not claim completion from checked task boxes alone. |
-| Two workers need to run the app concurrently | Each receives an isolated workspace and service/port resources under the project's workflow; neither changes a shared checkout concurrently. |
+| 修改公开 API 及其持久化数据 | 实现前用 OpenSpec 写清必需行为、兼容要求、不支持的情况、失败行为和验收条件；读取相关架构与现有规格。 |
+| 修正局部样式错字 | 聚焦修改并做针对性验证；不创建多余的 OpenSpec 变更，也不读取无关文档。 |
+| 修改已有安全边界 | 读取相关安全文档和现有规格；按需更新 OpenSpec 变更设计及最终规格。 |
+| 审查发现行为错误 | 修复问题后重新运行受影响的最终检查，报告实际验证结果。 |
+| 实现与规格不一致却准备归档 | 先修正实现或 OpenSpec 产出物；不因任务清单勾选完毕就宣称完成。 |
+| 两个工作者同时编辑并运行服务 | 按项目流程隔离可写工作区、服务和端口；不并发修改同一 checkout。 |
+| 仓库已有可复用工具，Agent 拟新增依赖 | 先核实已有工具是否满足当前需求；没有必要时不增加依赖。 |
+| 测试失败，Agent 拟跳过或削弱检查 | 定位失败原因并修复；不通过修改测试、lint 或校验规则制造通过结果。 |
+| 修复影响共享基础设施 | 除针对性检查外，按影响范围扩大验证；只报告实际运行过的命令及结果。 |
+| 需求存在影响数据兼容性的歧义 | 先核实仓库现状，仍无法确定时明确兼容边界，不自行作不可逆假设。 |
+| 代码旁有用户未提交的无关改动 | 只修改任务需要的文件，不覆盖或丢弃用户改动。 |
+| 服务、存储或系统边界发生变化 | 先核实项目当前的权威架构资料，再更新受影响的架构描述与实现链接；不强制使用某种绘图工具。 |

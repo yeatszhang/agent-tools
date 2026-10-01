@@ -1,95 +1,67 @@
-# Agent Instructions
+# 仓库 Agent 指令
 
-This file defines always-on repository policy for coding agents. Keep it short enough to load on every task. Put task-specific procedures in Skills and link them from the routing section instead of copying them here.
+本文件只放几乎每项任务都适用的仓库约束。当前仓库的事实和更具体目录下的指令优先；按需流程放在 Skill 中，通过下方入口链接，不在这里复制。
 
-## Repository Map
+## 仓库地图
 
-- Start with [ARCHITECTURE.md](ARCHITECTURE.md) for system boundaries and the main code paths.
-- Read `openspec/specs/` for current product behavior and `openspec/changes/` for active or archived change records. Initialize OpenSpec before using this template.
-- Add links here for project-specific product, security, reliability, and operational docs. Read them when the task touches that area; do not load every document for every task.
+- 从 [ARCHITECTURE.md](ARCHITECTURE.md) 了解系统边界与主要代码路径。
+- `openspec/specs/` 是当前产品行为的依据；`openspec/changes/` 记录进行中和已归档的变更。使用本模板前先初始化 OpenSpec。
+- 在此补充项目实际存在的产品、安全、可靠性和运维文档链接；只读取当前任务相关的资料。
 
-## Engineering Constitution
+## 工程原则
 
-1. **Validate at boundaries; trust types internally.**
-   Validate network, IPC, filesystem, user, and external API inputs once. After validation, do not spread defensive null checks or fallback values through internal code.
+1. **先核实，再改动。** 阅读相关代码、测试、配置和已安装依赖的版本；能核实的路径、API 与行为，不凭记忆推断。不为小任务默认扫描全仓库。
+2. **尊重现有设计。** 沿用项目架构、命名和约定，优先复用现有工具与依赖。只有当前需求无法合理满足时，才引入新依赖或抽象。
+3. **在边界校验，内部信任类型。** 对网络、IPC、文件系统、用户及外部 API 输入做一次明确校验；不要在内部到处添加防御性空值判断和默认值。
+4. **保持零复杂度预算。** 避免为假设需求增加扩展点、单实现接口、透传封装和通用基础设施。
+5. **保持改动聚焦。** 每处修改都应服务当前任务或其必要后果。避免无关重构、改名、格式化、依赖升级；除非任务要求，保留公开 API、数据格式、配置键和可观察行为。
+6. **替换旧路径，不叠加新路径。** 新路径取代旧路径时，同步迁移调用方并移除旧实现；仅在明确要求兼容时保留旧路径。
+7. **用类型排除非法状态。** 优先使用精确领域类型、字面量联合和可辨识联合；不要靠松散布尔值与可选字段表达互斥状态，也不要用 `any`、忽略指令或强制断言掩盖类型错误。
+8. **修根因，显式失败。** 用复现、运行值、日志和失败测试定位问题；优先修正错误假设或不变量。不要用特殊分支、静默回退、宽泛捕获或伪成功掩盖失败；只捕获有明确恢复策略的错误。
+9. **测试行为，保护质量信号。** 断言可观察结果，不绑定私有调用次数或偶然结构。不得为制造通过结果而削弱、跳过或删除测试、类型检查、lint、断言、校验和安全检查，也不要针对已知用例硬编码。
+10. **按影响范围验证。** 先运行能有效证伪改动的针对性测试、类型检查、lint、构建或运行时检查；涉及 API、持久化、并发、安全、构建系统或共享基础设施时扩大验证。只报告实际运行并观察到的结果。
 
-2. **Use a zero complexity budget.**
-   Every abstraction must solve a current requirement. Avoid speculative extension points, one-implementation interfaces, pass-through wrappers, and generic infrastructure for hypothetical use.
+## 变更与完成
 
-3. **Keep the diff focused.**
-   Do not perform unrelated cleanup, renaming, formatting, dependency upgrades, or refactors while completing a scoped task.
+- 新功能及非平凡行为变更默认使用 OpenSpec。涉及公开 API、持久化状态、协议、运行时生命周期或兼容边界时，在 OpenSpec 的提案、规格和设计中写清必需行为、兼容要求、不支持的情况、失败行为和验收条件；不要另建同一变更的计划。无需行为规格的小修正可直接处理。
+- OpenSpec 产出物正文使用简体中文；保留工具要求的英文结构标题、关键字、代码标识符和路径。具体语言要求写入 `openspec/config.yaml` 的 `context`。
+- 能从仓库或工具可靠核实的信息先自行查证。对影响外部行为、数据、安全、兼容性或不可逆决定的歧义，先明确边界；其他情况采用可逆假设并在交付时说明。
+- 完成实现后做针对性验证，并审查 diff 的正确性、范围、失败路径和测试质量。高影响变更在项目流程支持时寻求独立审查；修复意见后重新运行必要检查。
+- 验证中发现由本次改动引起且属于任务范围的问题时直接修复。未完成必需审查或验证时，不声称任务已完成；报告未验证内容和原因。实现与 OpenSpec 产出物一致后再更新、归档变更。
+- 尊重当前 checkout。仅在任务或项目流程需要时创建分支、worktree；并发工作会争用文件、服务或端口时隔离资源。
 
-4. **Refactor by replacement, not layering.**
-   Prefer reshaping the existing path. When a new path replaces an old one, migrate callers and remove the old path in the same change unless compatibility is an explicit requirement.
+## 编码与测试
 
-5. **Make impossible states impossible.**
-   Prefer precise domain types, literal unions, and discriminated unions over loose booleans and optional fields that allow invalid combinations.
+- 注释解释不明显的**原因**，不要复述代码；命名表达领域含义，避免机械的 `data`、`result`、`info`、`manager` 和 `temp`。
+- 具名中间值比嵌套三元表达式和密集表达式链更清楚时，使用中间值。不保留注释掉的代码和没有明确责任或需求的 TODO。
+- 文档记录决策、约束、易错点和跨模块不变量，不逐行复述实现。
+- 优先按「测试 → 实现 → 下一个测试」推进。保持测试确定性；不靠时序、随机性、网络抖动或共享可变状态碰运气。发现 flaky 测试时修根因，不靠跳过、删除或重试掩盖。
+- 行为有意变化时更新测试；修 bug 且存在合适测试层时，添加有保护价值的回归测试。断言具体预期值，而不只断言 truthy。
+- 可行时使用轻量真实依赖；否则通过明确端口和带类型的 fake 隔离。
 
-6. **Do not silence the type system.**
-   Avoid `any`, ignore directives, or casts whose only purpose is to suppress an error. Narrow unknown values through validation or control flow.
+## 仓库完整性
 
-7. **Fail explicitly.**
-   Do not silently substitute requested behavior with fallback behavior. Catch only errors that have a concrete recovery strategy; rethrow unknown failures.
+- 不输出、提交或硬编码凭据、令牌、私钥和敏感配置。不覆盖或丢弃与任务无关的用户改动。
+- 有权威生成流程时，不手改生成文件或 vendored 文件。对破坏性操作、生产环境变更、不可逆迁移和用户数据删除保持审慎。
 
-8. **Tests prove behavior, not implementation.**
-   Test externally observable outcomes. Avoid tests coupled to private call counts, incidental structure, or implementation details.
+## Skill 路由
 
-9. **Debug from evidence.**
-   Prefer focused reproduction, runtime values, logs, and failing tests over conclusions inferred only from static code reading.
+只为目标仓库里确实存在的 Skill 添加入口；流程细节留在 Skill 中。示例行在项目初始化后删除。
 
-10. **Run the smallest verification that proves the change.**
-    Start with affected tests, typecheck, and lint. Leave broad integration suites to CI unless the task requires them.
-
-## Before Behavior-Changing Work
-
-Use the project's OpenSpec workflow for features and non-trivial behavior changes. For changes to public APIs, persisted state, protocols, runtime lifecycle, or compatibility boundaries, capture required behavior, compatibility requirements, intentionally unsupported cases, failure behavior, and acceptance criteria in the relevant OpenSpec proposal, specs, and design. Do not maintain a second plan or scope contract for the same change. A small local correction can proceed directly when it needs no change spec.
-
-## Completion Contract
-
-- Implement the agreed scope and run focused verification.
-- Review the diff for correctness, scope creep, missing failure paths, and test quality. Seek independent review for high-impact changes when the project workflow supports it; resolve findings before final verification.
-- Run any required final checks after the last fix. Report what ran and what remains unverified. Do not claim completion while required checks or review are pending.
-- Update and archive the OpenSpec change only after its implemented behavior and verification agree with the artifacts.
-- Preserve the current checkout. Create branches or worktrees only when the task or repository workflow calls for them; isolate concurrent workers when they can change the same files, services, or ports.
-
-## Coding Rules
-
-- Comments explain non-obvious **why**, not obvious **what**.
-- Prefer domain names over mechanical names such as `data`, `result`, `info`, `manager`, and `temp`.
-- Avoid nested ternaries and dense expression pipelines when named intermediate values would make intent clearer.
-- Do not keep commented-out code or speculative TODOs without a concrete owner or requirement.
-- Documentation should capture decisions, constraints, gotchas, and cross-module invariants rather than narrating code.
-
-## Testing Rules
-
-- Prefer vertical slices: test → implementation → next test.
-- Keep tests deterministic; remove reliance on timing, randomness, network jitter, and shared mutable state.
-- A flaky test is a bug. Fix the source of nondeterminism instead of deleting, skipping, or retrying it.
-- Prefer real lightweight dependencies when practical; otherwise isolate them behind explicit ports and typed fakes.
-- Use strong assertions that verify the expected value, not weak truthiness checks.
-
-## Skill Routing
-
-Keep procedural workflows out of this file. Add routes only for Skills that actually exist in the target repository.
-
-Example:
-
-| When | Skill |
+| 何时使用 | Skill |
 | --- | --- |
-| Perform a task-specific workflow | `skills/skill-name/SKILL.md` (replace with a link to a real Skill) |
+| 执行某项专门流程 | `skills/skill-name/SKILL.md`（替换为真实链接） |
 
-The root file routes; the Skill contains the detailed procedure. Remove example rows after project setup.
+## 项目特有信息
 
-## Project-Specific Additions
+只填写几乎每项任务都需要、且不容易从仓库发现的事实：
 
-Add only rules that are true for nearly every task in this repository:
+- 包管理器与构建系统：
+- 针对性测试命令：
+- 类型检查命令：
+- Lint 命令：
+- 生成文件及其生成命令：
+- 架构约束：
+- 安全约束：
 
-- Package manager / build system:
-- Focused test command:
-- Typecheck command:
-- Lint command:
-- Generated files:
-- Architecture constraints:
-- Security constraints:
-
-For narrower package or directory rules, prefer a nested `AGENTS.md` near the relevant files instead of expanding this root file.
+包或目录特有规则放在附近的嵌套 `AGENTS.md`，不要继续扩充根文件。
