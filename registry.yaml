@@ -5,6 +5,10 @@ skills:
     path: skills/writing-editor
     status: active
     description: 中文去 AI 味，并通过人工修改 diff 逐步学习个人 Voice。
+  - id: repo-spec-maintainer
+    path: skills/repo-spec-maintainer
+    status: active
+    description: 创建、裁剪和审查项目级 AGENTS.md，并维护 repository policy 与 Skills 的链接边界。
 
 agents:
   - id: research-agent
@@ -15,6 +19,12 @@ agents:
     path: agents/review-agent.md
     status: draft
     description: 面向代码、方案、文档的审查 Agent 模板。
+
+templates:
+  - id: repo-spec
+    path: templates/repo-spec
+    status: active
+    description: 新 AI-assisted coding 项目的 AGENTS.md 工程约束模板。
 
 mcp:
   catalog: mcp/catalog.yaml
