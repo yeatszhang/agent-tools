@@ -71,5 +71,6 @@ Before finishing, confirm:
 - Skills link back to the authoritative shared policy when needed;
 - commands and paths exist;
 - OpenSpec paths and architecture links point to real project knowledge rather than template placeholders;
+- `CLAUDE.md`, when present, resolves to the authoritative `AGENTS.md` rather than maintaining a divergent copy;
 - no parallel plan or decision log duplicates the OpenSpec change record;
 - duplicated guidance has been removed.

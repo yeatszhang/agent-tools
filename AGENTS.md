@@ -8,6 +8,7 @@ This repository is the source of truth for personal agent tooling.
 - Keep `SKILL.md` concise; move long rules/examples into `references/`.
 - Keep always-on repository policy in `AGENTS.md`; keep conditional procedures in Skills.
 - Link between `AGENTS.md` and Skills instead of duplicating shared rules.
+- Keep `AGENTS.md` authoritative; `CLAUDE.md` links to it instead of maintaining a second copy.
 - Never commit secrets, tokens, cookies, private keys, or raw credentials.
 - For learned behavior, do not promote a one-off edit directly into stable rules.
 - Preserve source facts and intent when rewriting user content.

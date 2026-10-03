@@ -47,6 +47,8 @@ SKILL.md                 │
 ```
 
 - 一个事实只有一个 authoritative home。
+- 根目录的 `CLAUDE.md` 符号链接到 `AGENTS.md`，两个客户端读取同一份仓库指令。
+- Claude 的 `settings.json` 与 Codex 的 `config.toml` 使用不同格式和字段，各自保留原生配置；共享的是指令内容，不直接链接运行配置。
 - Root `AGENTS.md` 尽量短；只保留几乎每个任务都需要知道的规则。
 - 包/目录特有规则优先放最近的 nested `AGENTS.md`。
 - 长流程、决策树、验证步骤进入 Skill。
