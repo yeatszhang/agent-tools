@@ -9,6 +9,18 @@ skills:
     path: skills/repo-spec-maintainer
     status: active
     description: 创建、裁剪和审查项目级 AGENTS.md，并维护 repository policy 与 Skills 的链接边界。
+  - id: ui-ux-design
+    path: skills/ui-ux-design
+    status: draft
+    description: 从产品任务到交互状态、视觉方向和设计 Token 的界面设计流程。
+  - id: web-ui-review
+    path: skills/web-ui-review
+    status: draft
+    description: 根据代码与运行证据审查 Web UI 的交互、无障碍和界面性能。
+  - id: client-ui-design
+    path: skills/client-ui-design
+    status: draft
+    description: 在实际平台与技术栈中设计、实现和审查原生及桌面客户端 UI。
 
 agents:
   - id: research-agent

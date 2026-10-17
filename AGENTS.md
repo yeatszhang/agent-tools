@@ -31,6 +31,9 @@ Read a Skill only when its trigger applies. The root file routes; the Skill cont
 | --- | --- |
 | Create, audit, or update repository-level agent instructions | [repo-spec-maintainer](skills/repo-spec-maintainer/SKILL.md) |
 | Rewrite or humanize Chinese text, or maintain personal voice rules | [writing-editor](skills/writing-editor/SKILL.md) |
+| 设计产品任务流、界面状态或视觉方案 | [ui-ux-design](skills/ui-ux-design/SKILL.md)（草案） |
+| 审查 Web UI 的交互、无障碍或界面性能 | [web-ui-review](skills/web-ui-review/SKILL.md)（草案） |
+| 设计、实现或审查原生与桌面客户端 UI | [client-ui-design](skills/client-ui-design/SKILL.md)（草案） |
 
 When authoring a new Skill, start from [templates/skill/README.md](templates/skill/README.md). Skills that depend on repository-wide rules should link back to this file rather than restating those rules.
 

@@ -17,7 +17,10 @@
 agent-tools/
 ├── skills/
 │   ├── writing-editor/          # 中文去 AI 味 + Personal Voice
-│   └── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
+│   ├── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
+│   ├── ui-ux-design/            # 产品任务、交互状态与视觉方案（草案）
+│   ├── web-ui-review/           # Web UI 交互、无障碍与性能审查（草案）
+│   └── client-ui-design/        # 原生与桌面客户端 UI（草案）
 ├── agents/                      # Agent 角色/工作流定义
 ├── mcp/                         # MCP catalog 与接入说明
 ├── tools/                       # 常用 CLI / 工具索引
@@ -98,6 +101,14 @@ Stable Voice
 ```
 
 一次编辑只能产生 candidate；重复观察后再进入 stable。
+
+## 设计与前端工程资料
+
+已记录并下载 Anthropic frontend-design、UI UX Pro Max 和 Vercel Agent Skills 的相关原文，附固定提交版本、SHA-256 校验与中文学习结论：
+
+- [调研与 Skill 取舍](docs/research/design-engineering.md)：区分上游能力、本地提炼和待补充的产品/客户端能力。
+- [离线来源索引](tools/references/design-engineering/README.md)：原文、检索数据、规则与使用方式。
+- [设计类 Skill 草案](skills/README.md)：尚需真实项目验证，不作为已经稳定的个人设计偏好。
 
 ## 安全约定
 
