@@ -9,7 +9,7 @@ description: 说明用户会提出什么任务、何时应触发，以及这个 
 
 ## Shared Policy
 
-如果这个 Skill 依赖仓库级约束，在这里链接权威 `AGENTS.md`，不要复制规则。
+完全相同的仓库级约束链接权威 `AGENTS.md`；本 Skill 的场景化流程应在本目录完整保存，允许必要冗余，并注明来源与调整。
 
 Example:
 
@@ -29,11 +29,11 @@ Repository-wide policy remains authoritative in [../../AGENTS.md](../../AGENTS.m
 
 ## Must
 
-- 写出本 Skill 特有、可以执行的约束；共享规则链接到权威 `AGENTS.md`。
+- 写出本 Skill 特有、可以执行的约束；完全相同的共享规则链接到权威 `AGENTS.md`。
 
 ## Avoid
 
-- 不复制仓库级规则，不为假设的场景增加通用流程。
+- 不因规则相似而删除场景化步骤，不用外链代替必需流程；不为假设的场景增加通用流程。
 
 ## Validation
 

@@ -21,6 +21,10 @@ skills:
     path: skills/client-ui-design
     status: draft
     description: 在实际平台与技术栈中设计、实现和审查原生及桌面客户端 UI。
+  - id: desktop-app-engineering
+    path: skills/desktop-app-engineering
+    status: draft
+    description: Electron 宿主、IPC、性能与发布验证，以及 Electron/Tauri/原生桌面选型。
 
 agents:
   - id: research-agent

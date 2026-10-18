@@ -22,7 +22,7 @@ metadata:
 
 - 跨平台复用任务语义与设计 Token 意图，输入行为、单位、控件和导航允许随平台变化。
 - RN、SwiftUI、Compose、Flutter 与 Windows 栈的资料仅作按需参考。版本化 API 应核对目标版本的官方文档。
-- Electron/Tauri 可以复用一般界面设计判断；上游没有提供完整的宿主、IPC、权限和更新机制规范，不将这部分声称为已覆盖能力。
+- Electron/Tauri 的桌面交互与窗口行为由本 Skill 处理；Electron 宿主、preload/IPC、权限、性能和打包更新参考 [desktop-app-engineering](../desktop-app-engineering/SKILL.md)。Tauri 宿主实现需另查对应版本官方资料，不能套用 Electron 的进程与安全模型。
 - 不因上游推荐安装 Expo、动画或列表库，也不默认升级运行时。复杂度由当前项目和已证实问题决定。
 
 ## 验证

@@ -9,4 +9,6 @@ Copy `SKILL.md` and `evals/` for a stable Skill. Keep the other directories only
 - `assets/`: files consumed or delivered by the workflow.
 - `evals/`: should-trigger, should-not-trigger, and result-quality cases.
 
+资料组织遵循 [本地资料约定](../../docs/conventions.md)：必需步骤在当前 Skill 内保留完整版本；完全相同的资料可共享引用，外链用于溯源和版本核对。
+
 Keep the main file concise. Update trigger evals when changing the description; update result evals when changing the workflow. Do not copy placeholder examples into a production Skill.

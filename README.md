@@ -6,7 +6,7 @@
 
 1. 一份源仓库，多 Agent 复用。
 2. Skill 优先采用开放的 Agent Skills 结构，避免绑定单一运行时。
-3. `AGENTS.md` 承载 always-on policy，Skill 承载按需 workflow；两者用链接协作，不复制规则。
+3. `AGENTS.md` 承载 always-on policy，Skill 承载按需 workflow；两者按职责协作；场景化流程优先保存在仓库，完全相同的规则共享引用。
 4. MCP 只记录可公开的配置结构与环境变量名，不提交密钥。
 5. 所有“会学习”的 Skill 都把观察、候选规则、稳定规则分层，避免一次修改污染长期风格。
 6. 重要 Skill 应有最小 eval，用修改前后样例验证，而不是只凭感觉迭代。
@@ -20,7 +20,8 @@ agent-tools/
 │   ├── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
 │   ├── ui-ux-design/            # 产品任务、交互状态与视觉方案（草案）
 │   ├── web-ui-review/           # Web UI 交互、无障碍与性能审查（草案）
-│   └── client-ui-design/        # 原生与桌面客户端 UI（草案）
+│   ├── client-ui-design/        # 原生与桌面客户端 UI（草案）
+│   └── desktop-app-engineering/ # 桌面选型与 Electron 工程（草案）
 ├── agents/                      # Agent 角色/工作流定义
 ├── mcp/                         # MCP catalog 与接入说明
 ├── tools/                       # 常用 CLI / 工具索引
@@ -49,7 +50,7 @@ SKILL.md                 │
   └─ shared policy: -----┘ link back to AGENTS.md
 ```
 
-- 一个事实只有一个 authoritative home。
+- 上游原文保留可追溯来源，场景化内容优先维护本地版本；仅完全相同的资料共享引用，具体见 [资料约定](docs/conventions.md)。
 - 根目录的 `CLAUDE.md` 符号链接到 `AGENTS.md`，两个客户端读取同一份仓库指令。
 - Claude 的 `settings.json` 与 Codex 的 `config.toml` 使用不同格式和字段，各自保留原生配置；共享的是指令内容，不直接链接运行配置。
 - Root `AGENTS.md` 尽量短；只保留几乎每个任务都需要知道的规则。
