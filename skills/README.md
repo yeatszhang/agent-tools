@@ -7,6 +7,10 @@
 - [writing-editor](writing-editor/SKILL.md)：中文 Humanizer + Personal Voice + diff learning。
 - [repo-spec-maintainer](repo-spec-maintainer/SKILL.md)：创建、裁剪、审查项目级 `AGENTS.md`，并维护 AGENTS ↔ Skill 的 progressive-disclosure 关系。
 
+## 桌面工程 Skill（draft）
+
+- [desktop-app-engineering](desktop-app-engineering/SKILL.md)：单平台原生 / Electron / Tauri 选型及 Electron IPC、安全、性能与桌面自动化；含逐项选型依据。独立可用，不依赖未合并的设计 Skills。
+
 ## AGENTS.md ↔ Skill
 
 - `AGENTS.md`：always-on 规则、仓库事实、Skill 路由。
