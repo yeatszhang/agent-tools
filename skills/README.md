@@ -11,6 +11,10 @@
 
 - [desktop-app-engineering](desktop-app-engineering/SKILL.md)：单平台原生 / Electron / Tauri 选型及 Electron IPC、安全、性能与桌面自动化；含逐项选型依据。独立可用，不依赖未合并的设计 Skills。
 
+## 全局安装与更新
+
+当前 3 个 Skill 通过源目录符号链接共享给全局环境；同步命令、冲突处理与分支切换说明见 [仓库安装说明](../README.md#全局-skill-关联)。新增或删除 Skill 时同步维护本索引、`registry.yaml` 和根路由，然后运行同步脚本。
+
 ## AGENTS.md ↔ Skill
 
 - `AGENTS.md`：always-on 规则、仓库事实、Skill 路由。

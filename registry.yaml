@@ -9,6 +9,10 @@ skills:
     path: skills/repo-spec-maintainer
     status: active
     description: 创建、裁剪和审查项目级 AGENTS.md，并维护 repository policy 与 Skills 的链接边界。
+  - id: desktop-app-engineering
+    path: skills/desktop-app-engineering
+    status: draft
+    description: 原生 SwiftUI/WinUI、Electron 与 Tauri 桌面选型，以及 Electron 宿主、IPC、性能和发布验证。
 
 agents:
   - id: research-agent

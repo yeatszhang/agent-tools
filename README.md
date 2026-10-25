@@ -17,7 +17,8 @@
 agent-tools/
 ├── skills/
 │   ├── writing-editor/          # 中文去 AI 味 + Personal Voice
-│   └── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
+│   ├── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
+│   └── desktop-app-engineering/ # 桌面选型及 Electron 工程（草案）
 ├── agents/                      # Agent 角色/工作流定义
 ├── mcp/                         # MCP catalog 与接入说明
 ├── tools/                       # 常用 CLI / 工具索引
@@ -53,6 +54,19 @@ SKILL.md                 │
 - 包/目录特有规则优先放最近的 nested `AGENTS.md`。
 - 长流程、决策树、验证步骤进入 Skill。
 - 长背景、示例和 rationale 进入 `references/` 或 docs。
+
+## 全局 Skill 关联
+
+当前仓库的 `skills/*/SKILL.md` 是安装来源。通过符号链接关联到 `~/.agents/skills/`（当前 Codex 使用的共享目录）和 `~/.claude/skills/`；修改源文件即更新全局读取内容。入口与状态见 [Skills 索引](skills/README.md) 和 [registry.yaml](registry.yaml)。
+
+```sh
+python3 scripts/sync_skills.py          # 预览
+python3 scripts/sync_skills.py --apply  # 同步到当前用户
+```
+
+同步包含当前草案 Skill，保留其 draft 标记。脚本仅清理指向本仓库、且当前分支已不存在的 Skill 链接；遇到同名目录或其他来源链接时停止，保留原内容。其他全局 Skills、系统内置 Skills、插件、模板和上游快照不参与同步。切换分支或增删 Skill 后重新运行；不会从其他分支恢复已移除的 Skill。
+
+`~/.codex/skills/` 中已有的独立 Skills 保持原状，不再为同一仓库 Skill 重复建立入口。全局关联跟随当前 checkout；需要长期固定版本时，应在独立稳定 checkout 中运行同步。可用 `--home <临时目录>` 做隔离验证。
 
 ## Repo Spec Template
 
