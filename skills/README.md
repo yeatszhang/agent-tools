@@ -18,6 +18,10 @@
 
 设计类任务按交付目标选择主 Skill：产品流程与视觉方案用 `ui-ux-design`；已有 Web UI 审查用 `web-ui-review`；平台导航、焦点、窗口与输入行为用 `client-ui-design`；Electron 宿主与发布用 `desktop-app-engineering`。跨层任务只加载涉及的部分，不默认叠加四套完整流程。
 
+## 全局安装与更新
+
+当前仓库中的 Skills 通过源目录符号链接共享给全局环境；同步命令、冲突处理与分支切换说明见 [仓库安装说明](../README.md#全局-skill-关联)。新增或删除 Skill 时同步维护本索引、`registry.yaml` 和根路由，然后运行同步脚本。
+
 ## AGENTS.md ↔ Skill
 
 - `AGENTS.md`：always-on 规则、仓库事实、Skill 路由。

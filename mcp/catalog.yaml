@@ -1,6 +1,15 @@
 version: 1
 
 servers:
+  - id: mac-bridge
+    status: active
+    category: local
+    purpose: 通过 MCP 访问 Mac 上的 notebook、备忘录、提醒事项和日历
+    path: packages/mac-bridge
+    secrets:
+      - MAC_BRIDGE_TOKEN  # 仅 HTTP 模式使用
+    config_committed: false
+
   - id: github
     status: active
     category: development

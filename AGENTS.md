@@ -13,6 +13,7 @@ This repository is the source of truth for personal agent tooling.
 - For learned behavior, do not promote a one-off edit directly into stable rules.
 - Preserve source facts and intent when rewriting user content.
 - Add or update eval cases when changing stable behavior.
+- 远端仓库变更优先使用独立分支及 PR/MR；除非明确要求，不直接推送默认分支，也不自行合并。
 
 ## Structure
 
