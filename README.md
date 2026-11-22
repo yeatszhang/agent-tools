@@ -21,6 +21,7 @@ agent-tools/
 │   └── desktop-app-engineering/ # 桌面选型及 Electron 工程（草案）
 ├── agents/                      # Agent 角色/工作流定义
 ├── mcp/                         # MCP catalog 与接入说明
+├── packages/mac-bridge/          # 远端 Agent 访问 Mac 应用和知识库
 ├── tools/                       # 常用 CLI / 工具索引
 ├── templates/
 │   ├── skill/                   # Skill 模板

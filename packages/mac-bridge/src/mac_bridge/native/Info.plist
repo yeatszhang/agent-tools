@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>CFBundleIdentifier</key><string>local.agent-tools.mac-bridge.eventkit</string>
+  <key>CFBundleName</key><string>Mac Bridge</string>
+  <key>NSCalendarsFullAccessUsageDescription</key><string>按本机 MCP 工具请求查询或创建日历事件。</string>
+  <key>NSRemindersFullAccessUsageDescription</key><string>按本机 MCP 工具请求查询、创建或完成提醒事项。</string>
+</dict>
+</plist>
