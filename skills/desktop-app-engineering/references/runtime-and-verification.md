@@ -34,7 +34,7 @@ Utility Process (重 CPU / 大规模 I/O / 索引等)
 
 ## 原生体验与设计
 
-以下检查在此 Skill 内独立完整：只聚焦 Electron 宿主任务涉及的窗口、焦点、菜单、文件操作和反馈，不依赖尚未合并的其他设计 Skills。纯视觉设计按目标项目自身规范执行。
+本节参考 [client-ui-design 的平台适配](../../client-ui-design/references/platforms.md)及 [ui-ux-design 的原型流程](../../ui-ux-design/references/ai-prototyping.md)，本地调整为 Electron 宿主变更的交互验收；执行不依赖加载这两个 Skill。
 
 1. 明确本次宿主动作对应的用户任务、入口和完成状态，复用现有组件与 Token。新增界面时先确定信息层级和内容密度；仅需单点修复时不重建设计系统。
 2. 修改窗口或标题栏时，检查最小尺寸、分栏约束、拖动区域与可点击控件是否冲突；确认关闭、隐藏到托盘、重新打开和退出符合当前产品约定，未保存数据按约定处理。

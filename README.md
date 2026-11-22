@@ -6,7 +6,7 @@
 
 1. 一份源仓库，多 Agent 复用。
 2. Skill 优先采用开放的 Agent Skills 结构，避免绑定单一运行时。
-3. `AGENTS.md` 承载 always-on policy，Skill 承载按需 workflow；两者用链接协作，不复制规则。
+3. `AGENTS.md` 承载 always-on policy，Skill 承载按需 workflow；两者按职责协作；场景化流程优先保存在仓库，完全相同的规则共享引用。
 4. MCP 只记录可公开的配置结构与环境变量名，不提交密钥。
 5. 所有“会学习”的 Skill 都把观察、候选规则、稳定规则分层，避免一次修改污染长期风格。
 6. 重要 Skill 应有最小 eval，用修改前后样例验证，而不是只凭感觉迭代。
@@ -18,7 +18,10 @@ agent-tools/
 ├── skills/
 │   ├── writing-editor/          # 中文去 AI 味 + Personal Voice
 │   ├── repo-spec-maintainer/    # 创建/审查 AGENTS.md 的按需工作流
-│   └── desktop-app-engineering/ # 桌面选型及 Electron 工程（草案）
+│   ├── ui-ux-design/            # 产品任务、交互状态与视觉方案（草案）
+│   ├── web-ui-review/           # Web UI 交互、无障碍与性能审查（草案）
+│   ├── client-ui-design/        # 原生与桌面客户端 UI（草案）
+│   └── desktop-app-engineering/ # 桌面选型与 Electron 工程（草案）
 ├── agents/                      # Agent 角色/工作流定义
 ├── mcp/                         # MCP catalog 与接入说明
 ├── packages/mac-bridge/          # 远端 Agent 访问 Mac 应用和知识库
@@ -48,7 +51,7 @@ SKILL.md                 │
   └─ shared policy: -----┘ link back to AGENTS.md
 ```
 
-- 一个事实只有一个 authoritative home。
+- 上游原文保留可追溯来源，场景化内容优先维护本地版本；仅完全相同的资料共享引用，具体见 [资料约定](docs/conventions.md)。
 - 根目录的 `CLAUDE.md` 符号链接到 `AGENTS.md`，两个客户端读取同一份仓库指令。
 - Claude 的 `settings.json` 与 Codex 的 `config.toml` 使用不同格式和字段，各自保留原生配置；共享的是指令内容，不直接链接运行配置。
 - Root `AGENTS.md` 尽量短；只保留几乎每个任务都需要知道的规则。
@@ -113,6 +116,14 @@ Stable Voice
 ```
 
 一次编辑只能产生 candidate；重复观察后再进入 stable。
+
+## 设计与前端工程资料
+
+已记录并下载 Anthropic frontend-design、UI UX Pro Max 和 Vercel Agent Skills 的相关原文，附固定提交版本、SHA-256 校验与中文学习结论：
+
+- [调研与 Skill 取舍](docs/research/design-engineering.md)：区分上游能力、本地提炼和待补充的产品/客户端能力。
+- [离线来源索引](tools/references/design-engineering/README.md)：原文、检索数据、规则与使用方式。
+- [设计类 Skill 草案](skills/README.md)：尚需真实项目验证，不作为已经稳定的个人设计偏好。
 
 ## 安全约定
 

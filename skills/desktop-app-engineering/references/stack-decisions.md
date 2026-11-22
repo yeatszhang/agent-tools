@@ -1,32 +1,6 @@
-# 桌面原生 / Electron / Tauri + Codex 技术栈选型：依据、边界与反例
+# Electron + Codex 技术栈选型：依据、边界与反例
 
 基准日期：2026-10-17。适用：新建 macOS/Windows 桌面效率工具，独立开发，Codex 为主要开发者，优先默认体验与实测性能。**不是**所有桌面项目强制栈；现有稳定项目保留现状优先。官方文档说明的是能力，综合选择仍属于工程判断。2026-10-18 复核了 shadcn Base UI 默认值、Forge Vite 和 Playwright Electron 的实验状态；没有重新验证所有依赖。
-
-## 桌面运行时的条件化选择（Electron vs Tauri 2）
-
-**此仓库的个人默认：新建跨平台桌面应用优先 Electron；单平台简单原生工具优先评估原生。** 原因是开发者熟悉 Node.js / TypeScript，Codex 可在 React、Electron Main/Preload 与 Node.js 逻辑间复用语言、依赖、调试手段和测试链路；整体开发效率及维护成本比孤立的包体积指标更重要。只有**简单 UI/交互 + 实质性性能敏感（安装包、常驻内存、启动或基础 CPU）**同时成立，且 Node.js/Sidecar、跨系统 WebView 兼容与学习成本可接受时，才优先认真比较 Tauri 2。既有工程、用户明确指定栈及其他特殊需求始终优先。此为当前开发者偏好，不代表 Electron 在客观性能上胜出。
-
-| 产品场景 | 优先考虑 | 判断依据 / 代价 |
-| --- | --- | --- |
-| macOS Only、界面简单、以菜单栏、原生通知或系统快捷功能为主 | **SwiftUI** | 直接使用原生 UI 控件与 MenuBarExtra 等系统能力；Codex 可以生成 SwiftUI，但仍要用 Xcode 编译、运行并验证签名及交互。若强依赖 npm SDK，Electron 仍可更省整体成本。 |
-| Windows Only、界面简单且系统融合优先 | **WinUI 3 + C#** | Windows App SDK 官方推荐的新桌面 UI；需具备 Windows 调试、打包测试能力，与 Node/TS 资产的复用较少。 |
-| 常驻菜单栏、剪贴板、轻量文件/Markdown、本地辅助工具 | **默认 Electron；若 UI 简单且有严格基础开销约束再考虑 Tauri 2** | Tauri 复用系统 WebView，有减小包体积、空闲内存的潜力；但 Mac WKWebView、Windows WebView2、Linux WebKitGTK 必须分别验收。不能仅因为产品功能少就换栈。 |
-| 主要调用云端模型 API 的聊天应用 | **默认 Electron** | 远程 API 不构成单独采用 Tauri 的充分理由；只有明确轻量化预算、UI 交互相对简单且 Rust/插件成本合理时，再将 Tauri 作为 PoC 方案。 |
-| 复杂 IDE、多网页工作区、大量 npm/Node SDK、Codex/Claude Code/MCP 长任务宿主 | **Electron** | 捆绑 Chromium 保证渲染基础一致，Node.js 与 Chromium 页面、窗口/调试接口集成直接；缺点是安装包与运行时基线通常更大。 |
-| 依赖 Node.js 的轻量应用 | **Electron** | 对熟悉 Node/TS 的开发者，直接使用 Electron 更有利于实现与维护；若指标要求迫切，可用 Tauri + Node Sidecar 做对照，计入二进制大小、进程管理、IPC、自动更新与崩溃恢复。 |
-| 极致 OS 原生交互、单平台交付 | **原生技术栈** | SwiftUI/AppKit 或 Windows 原生框架值得优先评估，不应仅限于 Web 容器。 |
-
-- **性能**：Tauri 的包体积和基础开销优势来自复用系统 WebView；不等于 React 页面一定更快。Electron 可通过懒加载、受限 IPC、Utility Process 等优化；性能结论须基于真实打包产物和目标硬件对照。
-- **AI Coding/桌面验证**：Electron 官方 Playwright Electron 接口支持操作 Chromium 窗口（目前为 experimental）；Tauri 可使用 WebDriver/平台测试，但 macOS/Windows/Linux 支持范围不一致，尤其要计划原生自动化或手工验证。不能认为任何一方对 Codex 生成正确率有公开的决定性证据。
-- **权限**：Tauri 2 有 Capabilities / Permissions 机制；Electron 依赖 contextIsolation、sandbox、受限 preload API 与 Main 授权校验。两者都必须审查真实授权配置，不能泛称某个运行时“天然安全”。
-- **跨平台**：日常新项目默认 Electron；复杂多网页视图或强调 UI/CSS/Web API 一致性更支持该选择。只有简单 UI/交互且基础占用或包体积是明确高优先级约束时才将 Tauri 作为候选，并验证系统 WebView 分歧。
-- **A/B PoC**：在相同 React UI、同样业务数据和目标 OS 上记录安装包体积、空闲工作集、冷/热启动 P75/P95、UI 交互延迟、行为测试成功率，以及 Codex 完成一次需求和后续修复的成本。Rust/Node Sidecar 存在时纳入完整部署产物和进程树。
-
-原生能力依据：[Apple SwiftUI](https://developer.apple.com/swiftui/)、[MenuBarExtra](https://developer.apple.com/documentation/swiftui/menubarextra)、[WinUI 3](https://learn.microsoft.com/en-us/windows/apps/winui)。AI Coding 降低跨语言代码编写门槛，但不能省掉 Xcode/Windows 工具链、原生调试、签名与跨平台分发工作。复杂原生媒体或硬件工具即使 UI 多也不应因“复杂”机械选 Electron。
-
-官方入口：[Tauri v2 Architecture](https://v2.tauri.app/concept/architecture/)、[Tauri Security](https://v2.tauri.app/security/)、[Tauri Sidecar](https://v2.tauri.app/develop/sidecar/)、[Tauri WebDriver](https://v2.tauri.app/develop/tests/webdriver/)、[Electron Process Model](https://www.electronjs.org/docs/latest/tutorial/process-model)、[Electron Security](https://www.electronjs.org/docs/latest/tutorial/security)、[Playwright Electron](https://playwright.dev/docs/api/class-electron)。
-
-下表是在当前开发者 **Electron 默认优先** 的前提下，选用 Electron 时的 React/Codex 参考栈；其他用户或项目可根据限制条件重评。
 
 ## 逐层决策
 

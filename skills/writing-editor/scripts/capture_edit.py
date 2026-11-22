@@ -4,36 +4,47 @@ import difflib
 import json
 from datetime import datetime
 from pathlib import Path
+import tempfile
 
 def main():
-    p = argparse.ArgumentParser()
+    p = argparse.ArgumentParser(description="保存已脱敏且明确要求记录的编辑样例")
     p.add_argument("--original", required=True)
     p.add_argument("--final", required=True)
     p.add_argument("--context", default="unknown",
                    choices=["technical", "management", "casual", "longform", "unknown"])
+    p.add_argument("--output-dir", required=True,
+                   help="样例输出目录；真实文本使用仓库外目录")
     args = p.parse_args()
 
-    skill_root = Path(__file__).resolve().parent.parent
-    original = Path(args.original).read_text(encoding="utf-8")
-    final = Path(args.final).read_text(encoding="utf-8")
+    original_bytes = Path(args.original).read_bytes()
+    final_bytes = Path(args.final).read_bytes()
+    original = original_bytes.decode("utf-8")
+    final = final_bytes.decode("utf-8")
 
-    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    out = skill_root / "observations" / stamp
-    out.mkdir(parents=True, exist_ok=False)
+    created_at = datetime.now().astimezone()
+    stamp = created_at.strftime("%Y%m%d-%H%M%S")
+    output_root = Path(args.output_dir).expanduser().resolve()
+    output_root.mkdir(parents=True, exist_ok=True)
+    out = Path(tempfile.mkdtemp(prefix=f"{stamp}-", dir=output_root))
 
-    (out / "original.md").write_text(original, encoding="utf-8")
-    (out / "final.md").write_text(final, encoding="utf-8")
+    (out / "original.md").write_bytes(original_bytes)
+    (out / "final.md").write_bytes(final_bytes)
 
-    diff = "".join(difflib.unified_diff(
+    diff_lines = difflib.unified_diff(
         original.splitlines(keepends=True),
         final.splitlines(keepends=True),
         fromfile="original.md",
         tofile="final.md",
-    ))
+    )
+    # 为没有末尾换行的内容保留标准 diff 标记，避免删除与新增行粘连。
+    diff = "".join(
+        line if line.endswith("\n") else line + "\n\\ No newline at end of file\n"
+        for line in diff_lines
+    )
     (out / "diff.patch").write_text(diff, encoding="utf-8")
 
     meta = {
-        "created_at": datetime.now().isoformat(timespec="seconds"),
+        "created_at": created_at.isoformat(timespec="seconds"),
         "context": args.context,
         "status": "candidate-source",
     }

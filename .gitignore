@@ -8,3 +8,5 @@ secrets/
 private/
 __pycache__/
 *.pyc
+/skills/writing-editor/observations/*
+!/skills/writing-editor/observations/README.md

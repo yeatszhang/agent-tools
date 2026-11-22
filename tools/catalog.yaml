@@ -24,3 +24,31 @@ tools:
     source: https://github.com/jzOcb/writing-style-skill
     purpose: 从 original/final diff 学习个人写作风格的机制参考
     status: upstream-reference
+
+  - id: anthropic-frontend-design
+    category: ui-design
+    source: https://github.com/anthropics/claude-code/blob/main/plugins/frontend-design/skills/frontend-design/SKILL.md
+    purpose: 视觉方向、业务内容与设计自查的上游参考
+    reference_path: tools/references/design-engineering
+    status: upstream-reference
+
+  - id: ui-ux-pro-max
+    category: design-engineering
+    source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+    purpose: 可检索的产品、UI/UX、设计系统和平台资料
+    reference_path: tools/references/design-engineering
+    status: upstream-reference
+
+  - id: vercel-agent-skills
+    category: frontend-engineering
+    source: https://github.com/vercel-labs/agent-skills
+    purpose: React 性能、组件组合、Web 审查、RN 与界面动效规则
+    reference_path: tools/references/design-engineering
+    status: upstream-reference
+
+  - id: vercel-web-interface-guidelines
+    category: web-ui-review
+    source: https://github.com/vercel-labs/web-interface-guidelines
+    purpose: Vercel web-design-guidelines Skill 实际引用的 Web 界面审查规则
+    reference_path: tools/references/design-engineering
+    status: upstream-dependency

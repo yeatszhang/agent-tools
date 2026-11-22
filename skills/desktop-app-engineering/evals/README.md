@@ -9,11 +9,6 @@
 | 应触发 | Electron 冷启动很慢，要定位原因 | 先测加载/主线程/资源，再选择延迟加载、worker，不直接建议换 UI 框架 |
 | 应触发 | macOS/Windows 自动更新发布检查 | 检查安装态、签名与回滚/迁移流程，区分构建成功和更新成功 |
 | 应触发 | 只比较 Electron 与 Tauri 的选型，不创建工程 | 给出约束与取舍，不生成项目或安装依赖 |
-| 应触发 | macOS Only 的简单菜单栏工具，询问原生或 Electron | 优先比较 SwiftUI MenuBarExtra 与 Electron，考虑 Node SDK 复用；不把简单界面等同于必须 Tauri |
-| 应触发 | Windows Only 的小型系统工具 | 优先评估 WinUI 3 + C# 与 Electron，明确 Windows 构建/验证成本 |
-| 应触发 | 用 Codex 新建普通跨平台效率工具，未给出严苛的体积/内存预算 | 默认推荐 Electron + Node.js/TypeScript，并说明个人熟悉度、复用和自动化开发成本；不机械推 Tauri |
-| 应触发 | Codex 开发 UI 简单的常驻菜单栏小工具，内存、体积是硬约束 | 才重点评估 Tauri 2，说明目标 OS WebView 差异及 Rust/Sidecar 成本，最好做同场景 PoC |
-| 应触发 | Codex 开发大型 IDE，需要 npm Agent SDK、多 WebContents 和 Electron Playwright | 优先评估 Electron，并说明基础资源开销与 Tauri Sidecar 替代的代价 |
 | 不应触发 | 修改现有 Tauri v2 capability 权限 | 查 Tauri 官方资料，不套 Electron preload 与 contextIsolation |
 | 不应触发 | 只修改 Web 登录页的错误提示 | 路由 ui-ux-design / web-ui-review |
 | 不应触发 | SwiftUI 页面的键盘焦点无法返回 | 路由 client-ui-design |
@@ -25,10 +20,10 @@
 1. **已有 Vue 项目**：已有 Vue 组件资产和稳定功能。不能因默认栈写着 React 就强行迁移；须说明新增依赖的成本。
 2. **冷启动性能**：缺少目标设备/基线。不能捏造毫秒、FPS、内存节约比例；列出测量口径。
 3. **渲染器越权**：只加 TypeScript 类型但没有 Main 校验。必须指出运行时校验与 sender 认证缺口。
-4. **视觉交互职责**：仅设计桌面命令面板不触发宿主安全审计；宿主变更涉及命令面板时，检查窗口、焦点和异步反馈。
+4. **视觉交互职责**：用户要求重新设计桌面命令面板。纯设计任务按 UI/UX 与 client UI 路由；宿主变更涉及命令面板交互时，使用本 Skill 本地步骤检查窗口、焦点和异步反馈，不因已有兄弟 Skill 就删掉这些步骤。
 5. **MVP 最小性**：没有远程数据/复杂列表/结构化存储，不默认加 TanStack Query、Virtual、SQLite、Motion。
 6. **发布真实性**：只执行 pnpm build 后不得声称 Windows 已安装验证、macOS 已签名或更新链路可用。
-7. **AI 生成对照**：只有单个截图不能证明某框架对 Codex 更合适；比较持续改动、测试成功率和成本。个人熟悉 Node/TS 的普通新建桌面项目，即使 Tauri 理论上更轻，仍先选 Electron；只有简单交互 + 明显性能约束并存，才权衡 Rust/Sidecar 和测试成本。
+7. **AI 生成对照**：只有单个截图不能证明某框架对 Codex 更合适；比较持续改动、测试成功率和成本。
 8. **单点验证**：只修复 IPC 参数校验。使用已有测试框架覆盖受影响边界，不强制安装 Vitest 或执行完整打包更新测试。
 9. **框架边界**：Tauri 只参与选型比较；不得声称 Electron 参考已覆盖 Tauri 命令权限与升级实现。
 

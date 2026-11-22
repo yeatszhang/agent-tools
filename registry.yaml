@@ -9,10 +9,22 @@ skills:
     path: skills/repo-spec-maintainer
     status: active
     description: 创建、裁剪和审查项目级 AGENTS.md，并维护 repository policy 与 Skills 的链接边界。
+  - id: ui-ux-design
+    path: skills/ui-ux-design
+    status: draft
+    description: 从产品任务到交互状态、视觉方向和设计 Token 的界面设计流程。
+  - id: web-ui-review
+    path: skills/web-ui-review
+    status: draft
+    description: 根据代码与运行证据审查 Web UI 的交互、无障碍和界面性能。
+  - id: client-ui-design
+    path: skills/client-ui-design
+    status: draft
+    description: 在实际平台与技术栈中设计、实现和审查原生及桌面客户端 UI。
   - id: desktop-app-engineering
     path: skills/desktop-app-engineering
     status: draft
-    description: 原生 SwiftUI/WinUI、Electron 与 Tauri 桌面选型，以及 Electron 宿主、IPC、性能和发布验证。
+    description: Electron 宿主、IPC、性能与发布验证，以及 Electron/Tauri/原生桌面选型。
 
 agents:
   - id: research-agent

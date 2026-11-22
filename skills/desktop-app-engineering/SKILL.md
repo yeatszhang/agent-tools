@@ -1,30 +1,40 @@
 ---
 name: desktop-app-engineering
-description: 为单平台或跨平台桌面应用比较原生 SwiftUI/WinUI、Electron 与 Tauri，并执行 Electron 宿主/IPC、权限、性能、打包及桌面自动化验证。用于桌面技术选型或 Electron 工程任务；纯 Web UI 和移动端任务不触发。
+description: 比较 Electron、Tauri 与平台原生的桌面选型，并实现或排查 Electron 宿主、preload/IPC、权限、性能、打包更新与桌面验证。用于桌面选型及 Electron 工程任务；纯视觉设计、Web 页面、移动端和 Tauri 专属实现不触发。
 metadata:
   status: draft
 ---
 
-# 桌面应用技术选型与 Electron 工程
+# 跨端桌面应用工程
 
-仓库通用规范见 [AGENTS.md](../../AGENTS.md)。本 Skill 为草案，未经真实 macOS/Windows 桌面产品验证；不得将推荐技术栈误写成基准测试胜者。
+仓库通用约束见 [AGENTS.md](../../AGENTS.md)。本 Skill 仍是 draft：有官方文档依据和案例草案，但未经过实际 Electron/macOS/Windows 项目验证。不要将推荐栈表述为基准测试胜出。
 
-## 决策流程
+## 决策入口
 
-1. 先核查已有项目框架、目标 OS、依赖资产、交互复杂度、原生集成程度、性能预算和发布方式。维护现有项目时不为统一技术栈而迁移。
-2. **当前开发者的默认选择**：新建 **macOS + Windows** 跨平台桌面应用优先 Electron，充分利用熟悉的 Node.js/TypeScript、React 生态和 Codex 的 JS/TS 工程与测试工具链。**单平台、UI 简单且原生系统集成为主**时优先评估 macOS SwiftUI 或 Windows WinUI 3；若依赖大量 Node SDK，则仍可选 Electron。**跨平台、UI 简单且安装包/常驻内存等有硬性能约束**时再重点评估 Tauri 2。复杂、数据密集但高性能敏感的应用仍需通过 PoC 判断，不机械选 Electron。
-3. 新项目、框架横向对比或技术选型依据需求，读取 [逐层选型依据](references/stack-decisions.md)。React 的默认优先级来自生态、熟悉度与 AI 工作流的工程判断；不存在“Codex 天然更理解 React”的已验证结论。
-4. Electron Main / Preload / IPC、权限、Native Module、进程管理、性能、打包及更新相关任务按需读取 [宿主与真实验证](references/runtime-and-verification.md)。Tauri/SwiftUI/WinUI 具体实现必须读取各自版本官方资料，不将 Electron 安全 API 套用到其他宿主。
-5. UI 任务先沿用项目 Design Tokens 与组件库；桌面端重点验证原生窗口习惯、菜单、键盘/焦点、分栏缩放、长文本、空/失败/加载状态。纯视觉设计和 DOM 代码审查不触发宿主级安全重构。仓库规范与 Skill 路由维护交给 [repo-spec-maintainer](../repo-spec-maintainer/SKILL.md)。
-6. 根据影响选择验证：UI 需要目标窗口运行与截图、IPC 需要边界测试、性能需要相同环境数据、发布需要安装态检查。只要求选型不创建项目；仅改小功能不强制跑所有测试。
+1. 识别项目现状、目标平台、性能预算、分发方式及 Agent 能力。优先保留项目已在使用、可维护且通过验证的框架；新项目才进行完整选型。用户未限定桌面运行时时比较 Electron、Tauri 和平台原生，而非默认 Electron。
+2. 新建 Electron 工程或要求逐层技术选型时，读取 [选型依据与替代方案](references/stack-decisions.md)。其中 Codex 主导场景的 React 优先是限定情境的工程假设，不是模型能力或运行性能事实；其余任务不预加载整套技术栈。
+3. 任务涉及主进程、预加载脚本、权限、IPC、重任务、资源、原生模块、打包/升级、性能时，按相关部分读取 [运行时、性能、发布与验证](references/runtime-and-verification.md)。此处负责 Electron 宿主边界，不由 UI Skill 代替安全审核。
+4. 纯产品任务流、界面状态、视觉方向或 Design Tokens → [ui-ux-design](../ui-ux-design/SKILL.md)；平台窗口、焦点、键盘、文件拖放和可访问性 → [client-ui-design](../client-ui-design/SKILL.md)；React Renderer 组件/DOM/Web UI 审查 → [web-ui-review](../web-ui-review/SKILL.md)；项目 AGENTS.md 策略路由 → [repo-spec-maintainer](../repo-spec-maintainer/SKILL.md)。单独处理上述领域时按对应 Skill 路由；宿主任务附带的窗口、输入与状态验收已在本 Skill 的运行参考中完整保存，不要求先加载兄弟 Skill。
+5. 用户只要求选型或审查时交付相应结果；要求实现时再完成核心路径并选择相关验证。UI 行为用真实窗口操作与截图，IPC 用边界测试，性能用测量，发布用安装态验证；不为单点修复强制执行所有类别。
 
-## Electron 工程约束
+## 适用范围
 
-- React Renderer 只暴露业务语义 API，不允许任意 Node.js/文件操作；通过隔离的 Preload 与 Main 进行受限 IPC，Main 验证 sender、权限和运行时参数。
-- 启动路径避免同步加载非关键资源，Main 不执行长时间同步任务；经实测需要时再引入 Utility Process、Worker、虚拟化或缓存。
-- 面向 Codex 的推荐起点（不是必装清单）：electron-vite、React、TypeScript strict、shadcn/ui + Base UI、Tailwind v4、Vitest 与按需的 Playwright Electron。Zustand、Zod、SQLite、Motion 等按实际需求决定。
-- dev server 启动成功不等于安装包正常；macOS/Windows 签名、原生模块、权限和更新须分别验证。
+- 下列宿主规则及运行参考仅适用于 Electron。Tauri 在本 Skill 中只参与选型比较；其权限、命令和发布实现应使用 Tauri 对应版本资料，不映射成 Main/Preload/IPC。
+- [参考选型](references/stack-decisions.md)保留新建重交互工具的候选组合。先遵循当前项目与任务约束，不把参考组合视为必装依赖。
+- 原型、浏览器预览、开发态应用和安装包验证是不同证据；报告实际运行的平台与模式。只具备一个平台的环境时，不声称已验证其余平台。
 
-## 交付与证据
+## 安全与性能门槛
 
-记录已知约束、推荐方案、反例、官方能力和工程判断的边界，以及真实测试环境、命令、结果和未验证项目。不要虚构启动时间、包大小、内存或 AI 生成正确率。触发与验收案例见 [evals](evals/README.md)。
+- 创建或修改 Electron 权限边界时，使用隔离、sandbox 和受限 Preload API；Main 验证消息来源、业务权限与输入。具体配置与检查项见运行参考，不因无关 UI 修改扩展为整应用安全改造。
+- Main 不承担阻塞型计算/大量同步 I/O；必要时使用 Utility Process/worker。启动过程延迟加载非关键模块；IPC 避免高频无界大对象传输。先剖析瓶颈再决定引入虚拟化、缓存、多进程或 React Compiler。
+- 打包区分开发态与分发态；原生二进制、ASAR、签名与更新在安装后的程序上验证，不能只跑 dev server。
+
+## 交付格式
+
+- **技术选型**：项目约束 → 推荐 → 逐层原因 → 备选何时更优 → 证据类型（官方能力 / 工程经验 / 尚未验证）→ 需 A/B 验证的指标。
+- **实现/排障**：改动范围 → 可复现问题与瓶颈 → 最小实现 → 实际运行证据 → 未验证部分和平台风险。
+- 不为单个 UI 调整重构整个桌面架构；不以安装更多 Skills 或组件包作为默认优化措施。
+
+## 验证
+
+触发与结果案例见 [evals](evals/README.md)。设计决策、跨进程安全、实际性能和分发验证属于不同证据类型，应分别报告。

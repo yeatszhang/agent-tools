@@ -1,0 +1,441 @@
+{
+  "executed_at": "2026-10-17T21:11:11+08:00",
+  "source_commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+  "method": "对锁定快照运行 Python 检索；结果为上游原始输出，非已批准设计方案。",
+  "limitations": "仅运行代表性查询，未逐条核实数据或执行真实 UI/设备验证。",
+  "cases": [
+    {
+      "id": "modal-focus",
+      "arguments": [
+        "keyboard focus modal",
+        "--domain",
+        "ux",
+        "--json"
+      ],
+      "purpose": "检查键盘焦点资料是否可检索",
+      "returncode": 0,
+      "result": {
+        "domain": "ux",
+        "query": "keyboard focus modal",
+        "file": "ux-guidelines.csv",
+        "count": 3,
+        "results": [
+          {
+            "Category": "Interaction",
+            "Issue": "Focus States",
+            "Platform": "All",
+            "Description": "Keyboard focus, including controls inside a modal, needs a visible indicator",
+            "Do": "Use a visible focus ring on every interactive control, including modal controls",
+            "Don't": "Remove focus outline without replacement",
+            "Code Example Good": "focus:ring-2 focus:ring-blue-500",
+            "Code Example Bad": "outline-none without alternative",
+            "Severity": "High"
+          },
+          {
+            "Category": "Accessibility",
+            "Issue": "Focus Not Obscured (Enhanced)",
+            "Platform": "Web",
+            "Description": "WCAG 2.2 AAA requires keyboard focus to remain fully visible",
+            "Do": "Keep the entire focused component unobscured by author-created content",
+            "Don't": "Present this enhanced AAA criterion as an AA requirement or allow persistent UI to hide any part of focus",
+            "Code Example Good": "close persistent overlay before focus moves behind it",
+            "Code Example Bad": "sticky footer covers half the focused button",
+            "Severity": "Medium"
+          },
+          {
+            "Category": "Accessibility",
+            "Issue": "Focus Not Obscured (Minimum)",
+            "Platform": "Web",
+            "Description": "WCAG 2.2 AA requires keyboard focus to remain at least partially visible",
+            "Do": "Offset sticky UI with scroll-padding and dismiss or move persistent overlays",
+            "Don't": "Let headers footers banners or chat widgets fully cover focus",
+            "Code Example Good": "scroll-padding-top: var(--header-height)",
+            "Code Example Bad": "fixed overlay covers :focus",
+            "Severity": "High"
+          }
+        ]
+      },
+      "review": {
+        "status": "matched",
+        "note": "有键盘焦点与遮挡规则，但不是完整弹层焦点管理实现。"
+      }
+    },
+    {
+      "id": "form-errors",
+      "arguments": [
+        "error summary validation",
+        "--domain",
+        "ux",
+        "--json"
+      ],
+      "purpose": "检查具体表单错误结果",
+      "returncode": 0,
+      "result": {
+        "domain": "ux",
+        "query": "error summary validation",
+        "file": "ux-guidelines.csv",
+        "count": 3,
+        "results": [
+          {
+            "Category": "Forms / Accessibility",
+            "Issue": "Focusable Error Summary",
+            "Platform": "Web",
+            "Description": "An error summary for failed validation complements inline field errors and must be easy to find by keyboard and screen reader users",
+            "Do": "Place it at the top of the form; move focus to its heading or container after failed submit; link each item to its invalid field; retain inline errors",
+            "Don't": "Replace inline errors with a visual-only summary or move focus on every blur",
+            "Code Example Good": "<div role=\"alert\" tabindex=\"-1\" aria-labelledby=\"error-title\"><h2 id=\"error-title\">There is a problem</h2><a href=\"#email\">Enter an email address</a></div>",
+            "Code Example Bad": "Toast only with no field links or focus target",
+            "Severity": "High"
+          },
+          {
+            "Category": "Accessibility",
+            "Issue": "Error Messages",
+            "Platform": "All",
+            "Description": "Error messages must be announced",
+            "Do": "Use aria-live or role=alert for errors",
+            "Don't": "Visual-only error indication",
+            "Code Example Good": "role='alert'",
+            "Code Example Bad": "Red border only",
+            "Severity": "High"
+          },
+          {
+            "Category": "Forms",
+            "Issue": "Error Placement",
+            "Platform": "All",
+            "Description": "Each invalid field needs an inline error connected to that field",
+            "Do": "Show a specific error below the input and reference it with aria-describedby",
+            "Don't": "Show only a top-level error without identifying each invalid field",
+            "Code Example Good": "<input aria-describedby=\"email-error\"><p id=\"email-error\">Enter an email address</p>",
+            "Code Example Bad": "Red border or summary only",
+            "Severity": "High"
+          }
+        ]
+      },
+      "review": {
+        "status": "matched",
+        "note": "首项为可聚焦错误摘要，与查询意图一致。"
+      }
+    },
+    {
+      "id": "rn-keyboard",
+      "arguments": [
+        "safe area keyboard",
+        "--stack",
+        "react-native",
+        "--json"
+      ],
+      "purpose": "检查平台与问题覆盖；多意图不保证全部命中",
+      "returncode": 0,
+      "result": {
+        "domain": "stack",
+        "stack": "react-native",
+        "query": "safe area keyboard",
+        "file": "stacks/react-native.csv",
+        "count": 3,
+        "results": [
+          {
+            "Category": "Forms",
+            "Guideline": "Handle keyboard",
+            "Description": "Manage keyboard visibility",
+            "Do": "KeyboardAvoidingView",
+            "Don't": "Content hidden by keyboard",
+            "Code Good": "<KeyboardAvoidingView behavior=\"padding\">",
+            "Code Bad": "No keyboard handling",
+            "Severity": "High",
+            "Docs URL": "https://reactnative.dev/docs/keyboardavoidingview",
+            "Applies To": "react-native 0.86.x (official active line)",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          },
+          {
+            "Category": "Forms",
+            "Guideline": "Use proper keyboard types",
+            "Description": "Appropriate keyboard for input",
+            "Do": "keyboardType for input type",
+            "Don't": "Default keyboard for all",
+            "Code Good": "keyboardType=\"email-address\"",
+            "Code Bad": "keyboardType=\"default\" for email",
+            "Severity": "Low",
+            "Docs URL": "",
+            "Applies To": "react-native 0.86.x (official active line)",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          },
+          {
+            "Category": "Navigation",
+            "Guideline": "Type navigation params",
+            "Description": "Type-safe navigation",
+            "Do": "Typed navigation props",
+            "Don't": "Untyped navigation",
+            "Code Good": "navigation.navigate<RootStackParamList>('Home', { id })",
+            "Code Bad": "navigation.navigate('Home', { id })",
+            "Severity": "Medium",
+            "Docs URL": "",
+            "Applies To": "react-native 0.86.x (official active line)",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          }
+        ]
+      },
+      "review": {
+        "status": "partial",
+        "note": "命中键盘处理，但结果不能完整回答安全区；第三项是导航参数类型，与本次问题无直接关系。应拆分查询。"
+      }
+    },
+    {
+      "id": "swiftui-text",
+      "arguments": [
+        "dynamic type accessibility",
+        "--stack",
+        "swiftui",
+        "--json"
+      ],
+      "purpose": "检查原生文字与辅助能力资料",
+      "returncode": 0,
+      "result": {
+        "domain": "stack",
+        "stack": "swiftui",
+        "query": "dynamic type accessibility",
+        "file": "stacks/swiftui.csv",
+        "count": 3,
+        "results": [
+          {
+            "Category": "Accessibility",
+            "Guideline": "Support Dynamic Type",
+            "Description": "Respect text size preferences",
+            "Do": "Scalable fonts and layouts",
+            "Don't": "Fixed font sizes",
+            "Code Good": ".font(.body) with Dynamic Type",
+            "Code Bad": ".font(.system(size: 16))",
+            "Severity": "High",
+            "Docs URL": "https://developer.apple.com/documentation/swiftui/scaledmetric",
+            "Applies To": "swiftui current; iOS 16+ baseline; Observation APIs iOS 17+",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          },
+          {
+            "Category": "Accessibility",
+            "Guideline": "Add accessibility labels",
+            "Description": "Describe UI elements",
+            "Do": ".accessibilityLabel for context",
+            "Don't": "Missing labels",
+            "Code Good": ".accessibilityLabel(\"Close button\")",
+            "Code Bad": "Button without label",
+            "Severity": "High",
+            "Docs URL": "https://developer.apple.com/documentation/swiftui/view/accessibilitylabel(_:)-1d7jv",
+            "Applies To": "swiftui current; iOS 16+ baseline; Observation APIs iOS 17+",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          },
+          {
+            "Category": "Accessibility",
+            "Guideline": "Use semantic views",
+            "Description": "Proper accessibility traits",
+            "Do": "Correct accessibilityTraits",
+            "Don't": "Wrong semantic meaning",
+            "Code Good": "Button for actions Image for display",
+            "Code Bad": "Image that acts like button",
+            "Severity": "Medium",
+            "Docs URL": "",
+            "Applies To": "swiftui current; iOS 16+ baseline; Observation APIs iOS 17+",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          }
+        ]
+      },
+      "review": {
+        "status": "matched",
+        "note": "命中 Dynamic Type、辅助标签和读屏条目；API 仍需按工程版本核对。"
+      }
+    },
+    {
+      "id": "desktop-keyboard",
+      "arguments": [
+        "keyboard shortcuts",
+        "--stack",
+        "wpf",
+        "--json"
+      ],
+      "purpose": "检查桌面键盘资料",
+      "returncode": 0,
+      "result": {
+        "domain": "stack",
+        "stack": "wpf",
+        "query": "keyboard shortcuts",
+        "file": "stacks/wpf.csv",
+        "count": 2,
+        "results": [
+          {
+            "Category": "Commands",
+            "Guideline": "Use InputBindings for keyboard shortcuts",
+            "Description": "Bind keyboard gestures to commands without manual key handling",
+            "Do": "KeyBinding inside Window.InputBindings",
+            "Don't": "Custom key handling in PreviewKeyDown",
+            "Code Good": "<Window.InputBindings><KeyBinding Key=\"S\" Modifiers=\"Ctrl\" Command=\"{Binding SaveCommand}\"/></Window.InputBindings>",
+            "Code Bad": "PreviewKeyDown handler checking for Ctrl+S",
+            "Severity": "Medium",
+            "Docs URL": "https://learn.microsoft.com/en-us/dotnet/desktop/wpf/advanced/commanding-overview",
+            "Applies To": "wpf current",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          },
+          {
+            "Category": "Accessibility",
+            "Guideline": "Support keyboard navigation",
+            "Description": "All functionality reachable via keyboard",
+            "Do": "Tab order and KeyboardNavigation properties",
+            "Don't": "Mouse-only interactions",
+            "Code Good": "<StackPanel KeyboardNavigation.TabNavigation=\"Cycle\">",
+            "Code Bad": "Click handlers with no keyboard equivalent",
+            "Severity": "High",
+            "Docs URL": "https://learn.microsoft.com/en-us/dotnet/desktop/wpf/advanced/focus-overview",
+            "Applies To": "wpf current",
+            "Status": "active",
+            "Verified At": "2026-08-13"
+          }
+        ]
+      },
+      "review": {
+        "status": "matched",
+        "note": "命中 WPF InputBindings 与键盘导航条目。"
+      }
+    },
+    {
+      "id": "dashboard-mismatch",
+      "arguments": [
+        "developer tool dashboard",
+        "--design-system",
+        "--json"
+      ],
+      "purpose": "已知反例：设计系统返回 FAQ/文档落地页，不直接采用",
+      "returncode": 0,
+      "result": {
+        "design_system": {
+          "project_name": "DEVELOPER TOOL DASHBOARD",
+          "category": "Developer Tool / IDE",
+          "pattern": {
+            "name": "FAQ/Documentation Landing",
+            "sections": "Hero with search bar > Popular categories > FAQ accordion > Contact/support CTA",
+            "cta_placement": "Search bar prominent + Contact CTA for unresolved questions",
+            "color_strategy": "Clean, high readability. Minimal color. Category icons in brand color. Success green for resolved.",
+            "conversion": "Reduce support tickets. Track search analytics. Show related articles. Contact escalation path."
+          },
+          "style": {
+            "id": "dark-mode-oled",
+            "name": "Dark Mode (OLED)",
+            "type": "General",
+            "effects": "Minimal glow (text-shadow: 0 0 10px), dark-to-light transitions, low white emission, high readability, visible focus",
+            "keywords": "Dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, OLED, night mode, power efficient",
+            "best_for": "Night-mode apps, coding platforms, entertainment, eye-strain prevention, OLED devices, low-light",
+            "performance": "cost:low|drivers:none",
+            "accessibility": "risk:low|requires:contrast-text-4.5,keyboard,visible-focus,reduced-motion",
+            "light_mode": "not-recommended",
+            "dark_mode": "supported"
+          },
+          "colors": {
+            "primary": "#1E293B",
+            "on_primary": "#FFFFFF",
+            "secondary": "#334155",
+            "on_secondary": "#FFFFFF",
+            "accent": "#22C55E",
+            "on_accent": "#0F172A",
+            "background": "#0F172A",
+            "foreground": "#F8FAFC",
+            "card": "#1B2336",
+            "card_foreground": "#F8FAFC",
+            "muted": "#272F42",
+            "muted_foreground": "#94A3B8",
+            "border": "#475569",
+            "destructive": "#EF4444",
+            "on_destructive": "#000000",
+            "ring": "#FFFFFF",
+            "notes": "Code dark + run green",
+            "cta": "#22C55E",
+            "text": "#F8FAFC",
+            "on_cta": "#0F172A"
+          },
+          "typography": {
+            "heading": "JetBrains Mono",
+            "body": "IBM Plex Sans",
+            "mood": "code, developer, technical, precise, functional, hacker",
+            "best_for": "Developer tools, documentation, code editors, tech blogs, CLI apps",
+            "google_fonts_url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap",
+            "css_import": "@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');"
+          },
+          "key_effects": "Minimal glow (text-shadow: 0 0 10px), dark-to-light transitions, low white emission, high readability, visible focus",
+          "anti_patterns": "Light mode default + Slow performance",
+          "decision_rules": {
+            "must_have": [
+              "constraint:keyboard-shortcuts",
+              "constraint:documentation"
+            ]
+          },
+          "activated_rules": [
+            {
+              "condition": "must_have",
+              "actions": [
+                "constraint:keyboard-shortcuts",
+                "constraint:documentation"
+              ]
+            }
+          ],
+          "constraints": [
+            "keyboard-shortcuts",
+            "documentation"
+          ],
+          "reasoning_default": false,
+          "source_identities": {
+            "product": "Developer Tool / IDE",
+            "reasoning": "Developer Tool / IDE",
+            "style": "dark-mode-oled",
+            "color": "Developer Tool / IDE",
+            "typography": "Developer Mono",
+            "landing": "FAQ/Documentation Landing"
+          },
+          "source_derivations": {
+            "color_mode": null
+          },
+          "severity": "HIGH",
+          "dials": {
+            "variance": null,
+            "variance_label": null,
+            "motion": null,
+            "motion_label": null,
+            "density": null,
+            "density_label": null
+          },
+          "motion_snippet": {},
+          "spacing_scale": null
+        },
+        "persistence": null
+      },
+      "review": {
+        "status": "rejected",
+        "note": "识别为 Developer Tool / IDE，但模式为 FAQ/Documentation Landing；不用于工作台，不持久化。"
+      }
+    },
+    {
+      "id": "unknown-query",
+      "arguments": [
+        "zzzzqvxy987654321",
+        "--domain",
+        "ux",
+        "--json"
+      ],
+      "purpose": "验证无匹配结果可如实报告",
+      "returncode": 0,
+      "result": {
+        "domain": "ux",
+        "query": "zzzzqvxy987654321",
+        "file": "ux-guidelines.csv",
+        "count": 0,
+        "results": [],
+        "suggestions": []
+      },
+      "review": {
+        "status": "no_match",
+        "note": "count=0，未用默认知识伪装数据库匹配。"
+      }
+    }
+  ]
+}

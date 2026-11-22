@@ -1,9 +1,11 @@
 ---
 name: writing-editor
-description: 润色中文文本，降低模板化 AI 写作痕迹，并逐步匹配用户个人 Voice。适用于技术文档、管理沟通、日常消息和长文。
+description: 按请求润色或去模板化中文技术文档、管理沟通、消息和长文，保留原意并匹配个人 Voice；用户明确要求学习修改时提炼候选偏好。普通技术问答、代码注释和仅校对错字不默认触发完整改写。
 ---
 
 # Writing Editor
+
+仓库共享约束见 [AGENTS.md](../../AGENTS.md)。
 
 ## Goal
 
@@ -33,18 +35,18 @@ description: 润色中文文本，降低模板化 AI 写作痕迹，并逐步匹
 1. Preserve facts and intent
 2. Remove empty / generic language
 3. Make claims concrete
-4. Preserve or strengthen explicit judgement
+4. 保留原判断及不确定程度，不把“可能”“初步”改成确定结论
 5. Match personal voice
 6. Improve rhythm and readability
 
 ## Learning
 
-当用户对输出进行了人工修改：
+用户提供人工修改，可以用于当前文本的调整；只有明确要求记录或学习偏好时，才进入持久化学习：
 
-1. 保存 original 和 final。
-2. 生成 diff。
-3. 只提出 candidate rules，不直接修改 stable voice。
-4. 同类修改多次出现后，提升为 emerging。
-5. 经人工 review / eval 后再写入 stable voice。
+1. 提取与表达风格有关的修改，区分事实修正和偏好；一次业务事实纠正不是写作规则。
+2. 如需保存证据，先脱敏，并按[记录流程](learning/README.md)指定输出目录；不自动把全文写入 Skill 源码目录。
+3. 只提出 candidate rules，不直接修改 stable voice。同一处修改的重复保存只算一次观察。
+4. 按[规则记录](learning/rules.yaml)中的阈值检查独立观察；次数仅是必要证据之一，不触发自动晋级。
+5. 经人工 review 与[评测案例](evals/README.md)验证后，才更新稳定 Voice。
 
-规则生命周期见 `learning/rules.yaml`。
+没有学习请求时，完成当前改写即可，不建立用户文本档案。
